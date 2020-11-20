@@ -168,6 +168,7 @@ apt-get install sudo >/dev/null 2>&1
 apt-get install cowsay -y >/dev/null 2>&1
 apt-get install lolcat -y >/dev/null 2>&1
 apt-get install figlet -y >/dev/null 2>&1
+apt install python python3 python-pip python3-pip -y >/dev/null 2>&1
 fun_ip
 wget -O /usr/bin/trans https://raw.githubusercontent.com/scriptsmx/script/master/Install/trans &> /dev/null
 clear
