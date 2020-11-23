@@ -60,7 +60,7 @@ echo -e "$BARRA"
 read -p "Enter..."
 # Inicializando o Proxy
 (
-cat << PYTHON >> /etc/newadn/proxy-color.py
+cat << PYTHON >> /etc/newadm/proxy-color.py
 # -*- coding: utf-8 -*-
 import socket, threading, thread, select, signal, sys, time, getopt
 
