@@ -259,12 +259,10 @@ class ConnectionHandler(threading.Thread):
             host = host[:i]
         else:
             if self.method=='CONNECT':
-                port = 443
+                port = 22
+port = 22
             else:
-                port = 80
-                port = 8080
-                port = 8799
-                port = 3128
+                port = $port
 
         (soc_family, soc_type, proto, _, address) = socket.getaddrinfo(host, port)[0]
 
@@ -338,4 +336,4 @@ if __name__ == '__main__':
 PYTHON
 ) >> $HOME/proxy.log &
 chmod +x /etc/newadm/proxy-priv.py &>/dev/null
-screen -dmS python prox-alx"/etc/newadm/proxy-priv.py" "$port" "$mensage" "$ipdns" >> /etc/newadm/Proxp.log
+screen -dmS pro-alexx"$port" python /etc/newadm/proxy-priv.py "$port" "$mensage" "$ipdns" && echo ""$port" "$mensage" "$ipdns"" >> /etc/newadm/Proxp.log

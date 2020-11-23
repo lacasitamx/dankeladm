@@ -13,7 +13,7 @@ echo -e "\033[1;31mPROXY PYTHON COLOR\033[0m"
 echo -e "$BARRA"
 echo -ne "Introduzca puerto: "
 read port
-echo -ne "Introduzca puerto de redirecion: "
+echo -ne "Introduzca puerto de redirecion (22 | 443): "
 read ports
 while [[ -z $FMSG || $FMSG = @(s|S|y|Y) ]]; do
 echo -e "$BARRA"
@@ -226,12 +226,9 @@ class ConnectionHandler(threading.Thread):
             host = host[:i]
         else:
             if self.method=='CONNECT':
-                port = 443
+                port = $ports
             else:
-                port = 80
-                port = 8080
-                port = 8799
-                port = 3128
+                port = $port
 
         (soc_family, soc_type, proto, _, address) = socket.getaddrinfo(host, port)[0]
 
@@ -305,4 +302,4 @@ if __name__ == '__main__':
 PYTHON
 ) >> $HOME/proxy.log &
 chmod +x /etc/newadm/proxy-color.py &>/dev/null
-screen -dmS python pro-alex"/etc/newadm/proxy-color.py" "$port" "$mensage" "$ipdns" >> /etc/newadm/Prox.log
+screen -dmS pro-alex"$port" python /etc/newadm/proxy-color.py "$port" "$mensage" "$ipdns" && echo ""$port" "$mensage" "$ipdns"" >> /etc/newadm/Prox.log
