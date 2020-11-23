@@ -249,7 +249,7 @@ err_fun () {
      1)msg -verm "$(fun_trans "Usuario Nulo")"; sleep 2s; tput cuu1; tput dl1; tput cuu1; tput dl1;;
      2)msg -verm "$(fun_trans "Usuario con nombre muy corto")"; sleep 2s; tput cuu1; tput dl1; tput cuu1; tput dl1;;
      3)msg -verm "$(fun_trans "Usuario con nombre muy grande")"; sleep 2s; tput cuu1; tput dl1; tput cuu1; tput dl1;;
-     4)msg -verm "$(fun_trans "Contraseña Nula")"; sleep 2s; tput cuu1; tput dl1; tput cuu1; tput dl1;;
+     4)msg -verm "$(fun_trans "Contraseï¿½a Nula")"; sleep 2s; tput cuu1; tput dl1; tput cuu1; tput dl1;;
      5)msg -verm "$(fun_trans "Contrasena Muy corta")"; sleep 2s; tput cuu1; tput dl1; tput cuu1; tput dl1;;
      6)msg -verm "$(fun_trans "Contrasena Muy Grande")"; sleep 2s; tput cuu1; tput dl1; tput cuu1; tput dl1;;
      7)msg -verm "$(fun_trans "Duracion Nula")"; sleep 2s; tput cuu1; tput dl1; tput cuu1; tput dl1;;
@@ -621,7 +621,7 @@ red=$(tput setaf 1)
 gren=$(tput setaf 2)
 yellow=$(tput setaf 3)
 txtvar=$(printf '%-25s' "USUARIO")
-txtvar+=$(printf '%-20s' "VÁLIDO")
+txtvar+=$(printf '%-20s' "Vï¿½LIDO")
 echo -e "\033[1;33m${txtvar}"
 msg -bar
 expired="${red}$(fun_trans "Expirado")"
@@ -666,7 +666,7 @@ verif_fun () {
     unset ONLINES
     [[ -e ${MyTIME} ]] && source ${MyTIME}
     local TimeNOW=$(date +%s)
-    # INICIA VERIFICAÇÃO
+    # INICIA VERIFICAï¿½ï¿½O
     while read user; do
            echo -ne "\033[1;33mUSUARIO: \033[1;32m$user "
            if [[ ! $(echo $(mostrar_usuarios)|grep -w "$user") ]]; then
@@ -767,6 +767,10 @@ done
 [[ -e ${SCPdir}/USRonlines ]] && rm ${SCPdir}/USRonlines
 [[ -e ${SCPdir}/USRexpired ]] && rm ${SCPdir}/USRexpired
 fi
+msg -bar
+[[ -z ${VERY} ]] && verificar="\033[1;32m ACTIVADO " || verificar="\033[1;31m DESACTIVADO "
+echo -e "            $verificar  --  CON EXITO"
+msg -bar
 }
 cleanreg () {
 sudo rm -rf /etc/newadmin/ger-user/Limiter.log
@@ -853,14 +857,14 @@ echo "$ban_ner2" >> $local
 echo "</h6></font>" >> $local
 }
 while true; do
-msg -ne "$(fun_trans "Añadir Mensaje Secundaria")? [S/N]: " && read sin_nao
+msg -ne "$(fun_trans "Aï¿½adir Mensaje Secundaria")? [S/N]: " && read sin_nao
 if [[ "$sin_nao" = @(s|S|y|Y) ]]; then
 txt_font
 elif [[ "$sin_nao" = @(n|N) ]]; then
 break
 fi
 done
-#echo '</h8><font color="purple">new®</font></h8>' >> $local
+#echo '</h8><font color="purple">newï¿½</font></h8>' >> $local
 echo '<h1><font></font></h1>' >> $local
 if [[ -e "$local2" ]]; then
 rm $local2  > /dev/null 2>&1
@@ -871,7 +875,7 @@ service ssh restart > /dev/null 2>&1 &
 service sshd restart > /dev/null 2>&1 & 
 service dropbear restart > /dev/null 2>&1 &
 }
-# Execução
+# Execuï¿½ï¿½o
 if [[ "$1" = "verificar" ]]; then
 verif_fun
 exit
