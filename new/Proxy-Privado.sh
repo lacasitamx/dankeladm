@@ -93,7 +93,7 @@ echo -e "$BARRA"
 read -p "Enter..."
 # Inicializando o Proxy
 (
-/usr/bin/python -x << PYTHON
+cat << PYTHON >> /etc/newadm/proxy-priv.py
 # -*- coding: utf-8 -*-
 import socket, threading, thread, select, signal, sys, time, getopt
 
@@ -336,10 +336,6 @@ def main(host=LISTENING_ADDR, port=LISTENING_PORT):
 if __name__ == '__main__':
     main()
 PYTHON
-) > $HOME/proxy.log &
-echo -e "$BARRA"
-echo -e "\e[1;31mProxy Iniciado Con Exito\e[0m"
-echo ""
-fun_bar "sudo apt-get install python -y"
-fun_bar "sudo apt-get install python3 -y"
-echo
+) >> $HOME/proxy.log &
+chmod +x /etc/newadm/proxy-priv.py &>/dev/null
+screen -dmS python prox-alx"/etc/newadm/proxy-priv.py" "$port" "$mensage" "$ipdns" >> /etc/newadm/Proxp.log

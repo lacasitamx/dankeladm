@@ -13,6 +13,8 @@ echo -e "\033[1;31mPROXY PYTHON COLOR\033[0m"
 echo -e "$BARRA"
 echo -ne "Introduzca puerto: "
 read port
+echo -ne "Introduzca puerto de redirecion: "
+read ports
 while [[ -z $FMSG || $FMSG = @(s|S|y|Y) ]]; do
 echo -e "$BARRA"
 echo -ne "Introduzca Un Mensaje De Conexion: "
@@ -58,7 +60,7 @@ echo -e "$BARRA"
 read -p "Enter..."
 # Inicializando o Proxy
 (
-/usr/bin/python -x << PYTHON
+cat << PYTHON >> /etc/newadn/proxy-color.py
 # -*- coding: utf-8 -*-
 import socket, threading, thread, select, signal, sys, time, getopt
 
@@ -67,7 +69,7 @@ LISTENING_PORT = int("$port")
 PASS = str("$ipdns")
 BUFLEN = 4096 * 4
 TIMEOUT = 60
-DEFAULT_HOST = '127.0.0.1:443'
+DEFAULT_HOST = '127.0.0.1:$ports'
 msg = "HTTP/1.1 200 <strong>($RETORNO)</strong>\r\nContent-length: 0\r\n\r\nHTTP/1.1 200 !!!conexion exitosa!!!\r\n\r\n"
 RESPONSE = str(msg)
 
@@ -301,8 +303,6 @@ def main(host=LISTENING_ADDR, port=LISTENING_PORT):
 if __name__ == '__main__':
     main()
 PYTHON
-) > $HOME/proxy.log &
-echo -e "$BARRA"
-echo "Proxy Iniciado Con Exito"
-echo "Listen 0.0.0.0:${port} ..."
-echo
+) >> $HOME/proxy.log &
+chmod +x /etc/newadm/proxy-color.py &>/dev/null
+screen -dmS python pro-alex"/etc/newadm/proxy-color.py" "$port" "$mensage" "$ipdns" >> /etc/newadm/Prox.log
