@@ -1,9 +1,5 @@
 #!/bin/bash
-apt-get install lsof
-apt-get install sudo
-apt-get install figlet -y
-apt-get install cowsay -y
-apt-get install lolcat -y
+
 clear
 cd $HOME
 SCPdir="/etc/newadm"
@@ -53,6 +49,13 @@ inst_components () {
  service apache2 restart > /dev/null 2>&1 &
  }
 }
+echo -e "  INSTALANDO PAQUETES ...ESPERE....."
+apt-get install lsof
+apt-get install sudo
+apt-get install figlet -y
+apt-get install cowsay -y
+apt-get install lolcat -y
+
 funcao_idioma () {
  echo -e " "
 msg -bar2
