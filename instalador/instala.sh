@@ -50,11 +50,11 @@ inst_components () {
  }
 }
 echo -e "  INSTALANDO PAQUETES ...ESPERE....."
-apt-get install lsof
-apt-get install sudo
-apt-get install figlet -y
-apt-get install cowsay -y
-apt-get install lolcat -y
+apt-get install lsof &>/dev/null
+apt-get install sudo &>/dev/null
+apt-get install figlet -y &>/dev/null
+apt-get install cowsay -y &>/dev/null
+apt-get install lolcat -y &>/dev/null
 
 funcao_idioma () {
  echo -e " "
