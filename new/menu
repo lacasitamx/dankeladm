@@ -121,6 +121,7 @@ wget -O $HOME/dankel.sh https://raw.githubusercontent.com/casitadelterror/dankel
 chmod +x $HOME/dankel.sh*
 local LINGUAGE=$(cat ${SCPidioma})
 $HOME/dankel.sh "${LINGUAGE}"
+rm -r $HOME/dankel.sh
 else
 msg -verm "$(fun_trans "Procedimiento Cancelado"): "
 msg -bar2
