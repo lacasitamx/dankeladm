@@ -36,10 +36,19 @@ done
 echo -e " \033[1;33m[\033[1;31m####################\033[1;33m] - \033[1;32m100%\033[0m"
 sleep 1s
 }
+trojan0(){
+echo -e "instalando trojan"
+source <(curl -sL https://git.io/trojan-install)
+}
+removetroy(){
+echo -e " eliminando trojan"
+source <(curl -sL https://git.io/trojan-install) --remove
+}
+
 v2ray_ps () {
 msg -bar
 msg -ama " $(fun_trans "INSTALANDO V2RAY")"
-source <(curl -sL https://git.io/fNgqx)
+source <(curl -sL https://multi.netlify.app/v2ray.sh) --zh
 msg -bar
 msg -ama " $(fun_trans "PARA SALIR PRECIONA CTRL + C")"
 msg -bar
@@ -47,18 +56,26 @@ msg -ama " $(fun_trans "EJECUTE v2ray PARA ENTRAR AL MENÚ")"
 msg -bar
 v2ray stream
 }
+removev2ray(){
+echo -e " ELIMINAND0 V2RAY"
+source <(curl -sL https://multi.netlify.app/v2ray.sh) --remove
+}
 
 corregir_fun () {
-echo -e " \033[1;36m $(fun_trans "INSTALAR V2RAY") \033[1;32m[NEW-ADM]"
+echo -e " \033[1;36m $(fun_trans "INSTALAR MULTI-V2RAY-TROJAN") \033[1;32m[NEW-ADM]"
 echo -e "$barra"
 while true; do
 echo -e "${cor[4]} [1] > ${cor[5]}$(fun_trans "INSTALAR V2RAY")"
 echo -e "${cor[4]} [2] > ${cor[5]}$(fun_trans "MENÚ V2RAY")"
 echo -e "${cor[4]} [3] > ${cor[5]}$(fun_trans "INSTALAR TLS")"
 echo -e "${cor[4]} [4] > ${cor[5]}$(fun_trans "V2RAY INFO")"
-echo -e "${cor[4]} [5] > ${cor[0]}$(fun_trans "SALIR")"
+echo -e "${cor[4]} [5] > ${cor[5]}$(fun_trans "DESINSTALAR V2RAY")"
+echo -e "${cor[4]} [6] > ${cor[5]}$(fun_trans "INSTALAR TROJAN")"
+echo -e "${cor[4]} [7] > ${cor[5]}$(fun_trans "DESINSTALAR TROJAN")"
+echo -e "${cor[4]} [8] > ${cor[5]}$(fun_trans "V2RAY TCP-FAST-OPEN")"
+echo -e "${cor[4]} [9] > ${cor[0]}$(fun_trans "SALIR")"
 echo -e "${cor[4]} [0] > ${cor[0]}$(fun_trans "VOLVER")\n${barra}"
-while [[ ${opx} != @(0|[1-5]) ]]; do
+while [[ ${opx} != @(0|[1-9]) ]]; do
 echo -ne "${cor[0]}$(fun_trans "Digite una Opcion"): \033[1;37m" && read opx
 tput cuu1 && tput dl1
 done
@@ -77,7 +94,19 @@ case $opx in
 	4)
 	v2ray info
 	break;;
-    5)
+5)
+removev2ray
+break;;
+6)
+trojan0
+break;;
+7)
+removetroy
+break;;
+8)
+tfo
+break;;
+    9)
 	exit;;
   
 esac
