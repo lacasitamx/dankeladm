@@ -712,10 +712,10 @@ EstadoServicio() {
 
     systemctl --quiet is-active $1
     if [ $? -eq 0 ]; then
-        echo "SERVICIO $̃1 ESTÁ (ACTIVO)" >> ${SCPdir}/monit.log
+        echo "SERVICIO $1 ESTÁ (ACTIVO)" >> ${SCPdir}/monit.log
     else
         echo "SERVICIO $1 ESTÁ (DESACTIVADO) | (REINICIANDO)" >> ${SCPdir}/monit.log
-		service $1 restart 
+		service $1 restart
     fi
 }
 EstadoServicio sshd
