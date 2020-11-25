@@ -711,12 +711,12 @@ monit_port(){
 #mkdir ${SCPdir}/monit.log &>/dev/null
 EstadoServicio() {
 
-    systemctl --quiet is-active $1
+    systemctl --quiet is-active $servico
     if [ $? -eq 0 ]; then
-        echo "SERVICIO $1 ESTÁ (ACTIVO)" >> ${SCPdir}/monit.log
+        echo "SERVICIO $servico ESTÁ (ACTIVO)" >> ${SCPdir}/monit.log
     else
-        echo "SERVICIO $1 ESTÁ (DESACTIVADO) | (REINICIANDO)" > ${SCPdir}/monit.log
-		service $1 restart &
+        echo "SERVICIO $servico ESTÁ (DESACTIVADO) | (REINICIANDO)" >> ${SCPdir}/monit.log
+		service $servico restart &
     fi
 }
 EstadoServicio sshd
@@ -730,7 +730,7 @@ EstadoServicio stunnel4
 EstadoServicio apache2
 on=" ACTIVO " && off=" DESACTIVADO | REINICIANDO "
 [[ $(ps x | grep badvpn | grep -v grep | awk '{print $1}') ]] && badvpn=$on || badvpn=$off
-echo "Estado del servicio badvpn está |$badvpn " > ${SCPdir}/monit.log
+echo "Estado del servicio badvpn está |$badvpn " >> ${SCPdir}/monit.log
 PIDVRF3="$(ps aux|grep badvpn |grep -v grep|awk '{print $2}')"
 if [[ -z $PIDVRF3 ]]; then
 screen -dmS badvpn0 /bin/badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000 --max-connections-for-client 10
