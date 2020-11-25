@@ -711,12 +711,12 @@ monit_port(){
 #mkdir ${SCPdir}/monit.log &>/dev/null
 EstadoServicio() {
 
-    systemctl --quiet is-active $servico
+    systemctl --quiet is-active $9
     if [ $? -eq 0 ]; then
-        echo "SERVICIO $servico ESTÁ (ACTIVO)" >> ${SCPdir}/monit.log
+        echo "SERVICIO $9 ESTÁ (ACTIVO)" >> ${SCPdir}/monit.log
     else
-        echo "SERVICIO $servico ESTÁ (DESACTIVADO) | (REINICIANDO)" >> ${SCPdir}/monit.log
-		service $servico restart &
+        echo "SERVICIO $9 ESTÁ (DESACTIVADO) | (REINICIANDO)" >> ${SCPdir}/monit.log
+		service $9 restart &
     fi
 }
 EstadoServicio sshd
