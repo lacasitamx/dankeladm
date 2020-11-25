@@ -121,7 +121,7 @@ wget -O $HOME/dankel.sh https://raw.githubusercontent.com/casitadelterror/dankel
 chmod +x $HOME/dankel.sh*
 local LINGUAGE=$(cat ${SCPidioma})
 $HOME/dankel.sh "${LINGUAGE}"
-rm -r $HOME/dankel.sh
+rm -rf $HOME/dankel.sh
 else
 msg -verm "$(fun_trans "Procedimiento Cancelado"): "
 msg -bar2
@@ -702,14 +702,19 @@ done
 fi
 }
 #test
+monitor_log(){
+echo -e " MONITOR LOG"
+cat ${SCPdir}/monit.log
+}
 monit_port(){
+#mkdir ${SCPdir}/monit.log &>/dev/null
 EstadoServicio() {
 
     systemctl --quiet is-active $1
     if [ $? -eq 0 ]; then
-        echo ""
+        echo "SERVICIO $̃1 ESTÁ (ACTIVO)" >> ${SCPdir}/monit.log
     else
-        echo ""
+        echo "SERVICIO $1 ESTÁ (DESACTIVADO) | (REINICIANDO)" >> ${SCPdir}/monit.log
 		service $1 restart 
     fi
 }
@@ -722,6 +727,9 @@ EstadoServicio stunnel4
 [[ $(EstadoServicio squid) ]] && EstadoServicio squid3
 # Servidor APACHE
 EstadoServicio apache2
+on=" ACTIVO " && off=" DESACTIVADO | REINICIANDO "
+[[ $(ps x | grep badvpn | grep -v grep | awk '{print $1}') ]] && badvpn=$on || badvpn=$off
+echo "Estado del servicio badvpn está |$badvpn " >> ${SCPdir}/monit.log
 PIDVRF3="$(ps aux|grep badvpn |grep -v grep|awk '{print $2}')"
 if [[ -z $PIDVRF3 ]]; then
 screen -dmS badvpn0 /bin/badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000 --max-connections-for-client 10
@@ -745,6 +753,8 @@ fi
 done
 }
 reset_python
+pidproxy3=$(ps x | grep -w  "proxy-color.py" | grep -v "grep" | awk -F "pts" '{print $1}') && [[ ! -z $pidproxy3 ]] && P3=" ACTIVO " || P3=" DESACTIVADO | REINICIANDO "
+echo "Estado del servicio Proxycolor está |  $P3 " >> ${SCPdir}/monit.log
 }
 
 monit_auto () {
@@ -795,11 +805,11 @@ _hora=$(printf '%(%H:%M:%S)T')
 msg -bar
 msg -ama "$(fun_trans "MANAGER") \033[1;31m[\033[1;32m NEW-ULTIMATE \033[1;31m] \033[1;33m[\033[1;34m OFICIAL BY DANKELTHAHER \033[1;33m] \033[1;31m[\033[1;37m$_hora\033[1;31m] "
 msg -bar
-menu_func "ADMINISTRAR USUARIOS" "HERRAMIENTAS" "MENU DE INSTALACIONES" "-vd ACTUALIZACION" "-vm DESINSTALAR" "-fi $AutoRun INICIO AUTOMATICO" "CAMBIAR IDIOMA" "CAMBIAR COLORES" "-am MONITOR DE SERVICIOS $monitservi" "-azc WEB PANEL (sshplus)"
+menu_func "ADMINISTRAR USUARIOS" "HERRAMIENTAS" "MENU DE INSTALACIONES" "-vd ACTUALIZACION" "-vm DESINSTALAR" "-fi $AutoRun INICIO AUTOMATICO" "CAMBIAR IDIOMA" "CAMBIAR COLORES" "-am MONITOR DE SERVICIOS $monitservi" "-vm MONITOR LOG" "-azc WEB PANEL (sshplus)"
 echo -ne "$(msg -verd "[0]") $(msg -verm2 ">") " && msg -bra "$(fun_trans "SALIR DEL SCRIPT")"
 msg -bar
 # FIM
-selection=$(selection_fun 10)
+selection=$(selection_fun 11)
 case ${selection} in
 1)${SCPusr}/usercodes "${idioma}";;
 2)ferramentas_fun;;
@@ -810,7 +820,8 @@ case ${selection} in
 7)funcao_idioma;;
 8)canbio_color;;
 9)monitor;;
-10)${SCPfrm}/panelweb.sh "${idioma}";;
+10)monitor_log;;
+11)${SCPfrm}/panelweb.sh "${idioma}";;
 0)cd $HOME && exit 0;;
 esac
 msg -ne "$(fun_trans "Enter Para Continuar")" && read enter

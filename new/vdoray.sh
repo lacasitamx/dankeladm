@@ -48,7 +48,7 @@ source <(curl -sL https://git.io/trojan-install) --remove
 v2ray_ps () {
 msg -bar
 msg -ama " $(fun_trans "INSTALANDO V2RAY")"
-source <(curl -sL https://multi.netlify.app/v2ray.sh) --zh
+source <(curl -sL https://multi.netlify.app/v2ray.sh)
 msg -bar
 msg -ama " $(fun_trans "PARA SALIR PRECIONA CTRL + C")"
 msg -bar
@@ -62,7 +62,7 @@ source <(curl -sL https://multi.netlify.app/v2ray.sh) --remove
 }
 
 corregir_fun () {
-echo -e " \033[1;36m $(fun_trans "INSTALAR MULTI-V2RAY-TROJAN") \033[1;32m[NEW-ADM]"
+echo -e " \033[1;36m $(fun_trans "INSTALAR MULTI-V2RAY-TROJAN") \033[1;32m[by alexmod80]"
 echo -e "$barra"
 while true; do
 echo -e "${cor[4]} [1] > ${cor[5]}$(fun_trans "INSTALAR V2RAY")"
