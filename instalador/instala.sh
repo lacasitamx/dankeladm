@@ -9,7 +9,8 @@ SCPusr="${SCPdir}/ger-user"
 SCPfrm="/etc/ger-frm"
 SCPfrm3="/etc/adm-lite"
 SCPinst="/etc/ger-inst"
-dank="aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2Nhc2l0YWRlbHRlcnJvci9kYW5rZWxhZG0vbWFzdGVyL25ldw=="
+invalid_key
+dank="aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2Nhc2l0YWRlbHRlcnJvci9kYW5rZWxhZG0vbWFzdGVyL25ldw77=="
 SUB_DOM='base64 -d'
 [[ $(dpkg --get-selections|grep -w "gawk"|head -1) ]] || apt-get install gawk -y &>/dev/null
 [[ $(dpkg --get-selections|grep -w "mlocate"|head -1) ]] || apt-get install mlocate -y &>/dev/null
@@ -176,6 +177,8 @@ msg -ama "[ NEW - ULTIMATE - SCRIPT ] ➣ \033[1;33m[\033[1;34m la casita del te
 [[ $1 = "" ]] && funcao_idioma || {
 [[ ${#1} -gt 2 ]] && funcao_idioma || id="$1"
  }
+ echo -e " ops? este script no está disponible"
+ exit
 Key="La-CasitaK0@84%ab97cda8f?K8888:8@@+95+84?+94@"
 REQUEST=$(echo $dank|$SUB_DOM)
 echo "$IP" > /usr/bin/vendor_code
