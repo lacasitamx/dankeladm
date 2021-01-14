@@ -48,7 +48,7 @@ inst_components () {
 }
 funcao_idioma () {
 msg -bar2
-echo -e "\e[1;33mSelecione Un Idioma\e[0m"
+echo -e "\e[1;33mSELECIONE SU IDIOMA\e[0m"
 msg -bar2
 declare -A idioma=( [1]="en English" [2]="fr Franch" [3]="de German" [4]="it Italian" [5]="pl Polish" [6]="pt Portuguese" [7]="es Spanish" [8]="tr Turkish" )
 for ((i=1; i<=12; i++)); do
@@ -98,6 +98,7 @@ echo -e " menu / adm" && msg -verm "$(source trans -b pt:${id} "Reinicie su serv
 mkdir /etc/crondbl  > /dev/null 2>&1 
 mkdir /etc/rom  > /dev/null 2>&1
 mkdir /etc/bin  > /dev/null 2>&1
+mkdir /etc/nanobc  > /dev/null 2>&1
 msg -bar2
 }
 ofus () {
@@ -146,6 +147,7 @@ case $1 in
 "ssrrmu.sh")ARQ="${SCPinst}/";; #Instalacao
 "shadowsocks.sh")ARQ="${SCPinst}/";; #Instalacao
 "v2ray.sh")ARQ="${SCPinst}/";; #Instalacao
+"vdoray.sh")ARQ="${SCPinst}/";; #Instalacao
 "shadowsocksGo.sh")ARQ="${SCPinst}/";; #Instalacao
 "panelweb.sh")ARQ="${SCPfrm}/";; #Instalacao
 "Crear-Demo.sh")ARQ="${SCPfrm}/";; #Instalacao
@@ -157,12 +159,23 @@ mv -f ${SCPinstal}/$1 ${ARQ}/$1
 chmod +x ${ARQ}/$1
 }
 echo -e "        INSTALANDO PAQUETES........"
+apt-get install bc -y &>/dev/null
+apt-get install zip -y &>/dev/null
+apt-get install screen -y &>/dev/null
+apt-get install unzip -y &>/dev/null
 apt-get install lsof >/dev/null 2>&1
+apt-get install ufw -y &>/dev/null
+apt-get install curl -y &>/dev/null
 apt-get install sudo >/dev/null 2>&1
 apt-get install cowsay -y >/dev/null 2>&1
 apt-get install lolcat -y >/dev/null 2>&1
 apt-get install figlet -y >/dev/null 2>&1
+apt-get install nano -y &>/dev/null
+#inst_components
 apt install python python3 python-pip python3-pip -y >/dev/null 2>&1
+apt-get install apache2 -y &>/dev/null
+ sed -i "s;Listen 80;Listen 81;g" /etc/apache2/ports.conf
+ service apache2 restart > /dev/null 2>&1
 fun_ip
 wget -O /usr/bin/trans https://raw.githubusercontent.com/scriptsmx/script/master/Install/trans &> /dev/null
 clear
@@ -177,7 +190,7 @@ echo ""
 [[ ${#1} -gt 2 ]] && funcao_idioma || id="$1"
  }
 error_fun () {
-msg -bar2 && msg -verm "$(source trans -b es:${id} "Esta Key era de otro servidor por lo que fue excluida"|sed -e 's/[^a-z -]//ig') " && msg -bar2
+msg -bar2 && msg -verm "$(source trans -b es:${id} "Esta Key era de otro servidor por lo que fue rechazada"|sed -e 's/[^a-z -]//ig') " && msg -bar2
 [[ -d ${SCPinstal} ]] && rm -rf ${SCPinstal}
 exit 1
 }
@@ -187,13 +200,13 @@ msg -bar2 && msg -verm "Key no valida! " && msg -bar2
 exit 1
 }
 while [[ ! $Key ]]; do
-msg -ne "Script Key: " && read Key
+msg -ne "Ingrese su Key: " && read Key
 tput cuu1 && tput dl1
 done
 msg -ne "Key: "
 cd $HOME
-wget -O $HOME/lista-arq $(ofus "$Key")/$IP > /dev/null 2>&1 && echo -e "\033[1;32m Verificando" || {
-   echo -e "\033[1;32m Verificando"
+wget -O $HOME/lista-arq $(ofus "$Key")/$IP > /dev/null 2>&1 && echo -e "\033[1;32m Verificado" || {
+   echo -e "\033[1;32m Verificado"
    invalid_key
    exit
    }
@@ -202,11 +215,11 @@ sleep 1s
 updatedb
 if [[ -e $HOME/lista-arq ]] && [[ ! $(cat $HOME/lista-arq|grep "KEY INVALIDA!") ]]; then
    msg -bar2
-   msg -ama "$(source trans -b es:${id} "BIENVENIDO, GRACIAS POR UTILIZAR"|sed -e 's/[^a-z -]//ig'): \033[1;31m[NEW-ULTIMATE]"
+   msg -ama "$(source trans -b pt:${id} "BEM VINDO, OBRIGADO POR UTILIZAR"|sed -e 's/[^a-z -]//ig'): \033[1;31m[NEW-ULTIMATE]"
    REQUEST=$(ofus "$Key"|cut -d'/' -f2)
    [[ ! -d ${SCPinstal} ]] && mkdir ${SCPinstal}
    pontos="*"
-   stopping="$(source trans -b es:${id} "Verificando Atualizaciones"|sed -e 's/[^a-z -]//ig')"
+   stopping="$(source trans -b pt:${id} "Verificando Atualizacoes"|sed -e 's/[^a-z -]//ig')"
    for arqx in $(cat $HOME/lista-arq); do
    msg -verm "${stopping}${pontos}"
    wget -O ${SCPinstal}/${arqx} ${IP}:81/${REQUEST}/${arqx} > /dev/null 2>&1 && verificar_arq "${arqx}" || error_fun
@@ -221,10 +234,10 @@ if [[ -e $HOME/lista-arq ]] && [[ ! $(cat $HOME/lista-arq|grep "KEY INVALIDA!") 
    mv -f /etc/bash.bashrc.2 /etc/bash.bashrc
    echo "${SCPdir}/menu" > /usr/bin/menu && chmod +x /usr/bin/menu
    echo "${SCPdir}/menu" > /usr/bin/adm && chmod +x /usr/bin/adm
-   inst_components
+   
    echo "$Key" > ${SCPdir}/key.txt
    [[ -d ${SCPinstal} ]] && rm -rf ${SCPinstal}   
-   [[ ${#id} -gt 2 ]] && echo "pt" > ${SCPidioma} || echo "${id}" > ${SCPidioma}
+   [[ ${#id} -gt 2 ]] && echo "es" > ${SCPidioma} || echo "${id}" > ${SCPidioma}
    [[ ${byinst} = "true" ]] && install_fim
 else
 invalid_key
