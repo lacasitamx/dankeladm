@@ -240,11 +240,12 @@ echo ""
 error_fun () {
 msg -bar2 && msg -verm "$(source trans -b es:${id} "Esta Key era de otro servidor por lo que fue rechazada"|sed -e 's/[^a-z -]//ig') " && msg -bar2
 [[ -d ${SCPinstal} ]] && rm -rf ${SCPinstal}
+rm -rf lista-arq
 exit 1
 }
 invalid_key () {
 msg -bar2 && msg -verm "Key no valida! " && msg -bar2
-[[ -e $HOME/lista-arq ]] && rm $HOME/lista-arq
+[[ -e $HOME/lista-arq ]] && rm -rf $HOME/lista-arq
 exit 1
 }
 while [[ ! $Key ]]; do
@@ -287,6 +288,7 @@ if [[ -e $HOME/lista-arq ]] && [[ ! $(cat $HOME/lista-arq|grep "KEY INVALIDA!") 
    [[ -d ${SCPinstal} ]] && rm -rf ${SCPinstal}   
    [[ ${#id} -gt 2 ]] && echo "es" > ${SCPidioma} || echo "${id}" > ${SCPidioma}
    [[ ${byinst} = "true" ]] && install_fim
+rm lista-arq
 else
 invalid_key
 fi
