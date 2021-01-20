@@ -277,13 +277,13 @@ if [[ -e $HOME/lista-arq ]] && [[ ! $(cat $HOME/lista-arq|grep "KEY INVALIDA!") 
    done
    sleep 1s
    msg -bar2
-   listaarqs="$(locate "lista-arq"|head -1)" && [[ -e ${listaarqs} ]] && rm $listaarqs   
+   listaarqs="$(locate "lista-arq"|head -1)" && [[ -e ${listaarqs} ]] && rm -rf $listaarqs   
    cat /etc/bash.bashrc|grep -v '[[ $UID != 0 ]] && TMOUT=15 && export TMOUT' > /etc/bash.bashrc.2
    echo -e '[[ $UID != 0 ]] && TMOUT=15 && export TMOUT' >> /etc/bash.bashrc.2
    mv -f /etc/bash.bashrc.2 /etc/bash.bashrc
    echo "${SCPdir}/menu" > /usr/bin/menu && chmod +x /usr/bin/menu
    echo "${SCPdir}/menu" > /usr/bin/adm && chmod +x /usr/bin/adm
-   
+   rm $HOME/lista-arq
    echo "$Key" > ${SCPdir}/key.txt
    [[ -d ${SCPinstal} ]] && rm -rf ${SCPinstal}   
    [[ ${#id} -gt 2 ]] && echo "es" > ${SCPidioma} || echo "${id}" > ${SCPidioma}
