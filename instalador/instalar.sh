@@ -11,30 +11,7 @@ SCPinst="/etc/ger-inst"
 [[ $(dpkg --get-selections|grep -w "gawk"|head -1) ]] || apt-get install gawk -y &>/dev/null
 [[ $(dpkg --get-selections|grep -w "mlocate"|head -1) ]] || apt-get install mlocate -y &>/dev/null
 rm $(pwd)/$0 &> /dev/null
-fun (){
-comando[0]="$1"
-comando[1]="$2"
- (
-[[ -e $HOME/fim ]] && rm $HOME/fim
-${comando[0]} -y > /dev/null 2>&1
-${comando[1]} -y > /dev/null 2>&1
-touch $HOME/fim
- ) > /dev/null 2>&1 &
-echo -ne "\033[1;33m ["
-while true; do
-   for((i=0; i<18; i++)); do
-   echo -ne "\033[1;31m##"
-   sleep 0.1s
-   done
-   [[ -e $HOME/fim ]] && rm $HOME/fim && break
-   echo -e "\033[1;33m]"
-   sleep 1s
-   tput cuu1
-   tput dl1
-   echo -ne "\033[1;33m ["
-done
-echo -e "\033[1;33m]\033[1;31m -\033[1;32m 100%\033[1;37m"
-}
+
 msg () {
 BRAN='\033[1;37m' && VERMELHO='\e[31m' && VERDE='\e[32m' && AMARELO='\e[33m'
 AZUL='\e[34m' && MAGENTA='\e[35m' && MAG='\033[1;36m' &&NEGRITO='\e[1m' && SEMCOR='\e[0m'
@@ -56,10 +33,15 @@ MIP2=$(wget -qO- ipv4.icanhazip.com)
 }
 inst_components () {
 [[ $(dpkg --get-selections|grep -w "nano"|head -1) ]] || apt-get install nano -y &>/dev/null
+[[ $(dpkg --get-selections|grep -w "cowsay"|head -1) ]] || apt-get install cowsay -y &>/dev/null
+[[ $(dpkg --get-selections|grep -w "lolcat"|head -1) ]] || apt-get install lolcat -y &>/dev/null
 [[ $(dpkg --get-selections|grep -w "bc"|head -1) ]] || apt-get install bc -y &>/dev/null
 [[ $(dpkg --get-selections|grep -w "screen"|head -1) ]] || apt-get install screen -y &>/dev/null
 [[ $(dpkg --get-selections|grep -w "python"|head -1) ]] || apt-get install python -y &>/dev/null
 [[ $(dpkg --get-selections|grep -w "python3"|head -1) ]] || apt-get install python3 -y &>/dev/null
+[[ $(dpkg --get-selections|grep -w "python-pip"|head -1) ]] || apt-get install python-pip -y &>/dev/null
+[[ $(dpkg --get-selections|grep -w "python3-pip"|head -1) ]] || apt-get install python3-pip -y &>/dev/null
+[[ $(dpkg --get-selections|grep -w "sudo"|head -1) ]] || apt-get install sudo -y &>/dev/null
 [[ $(dpkg --get-selections|grep -w "curl"|head -1) ]] || apt-get install curl -y &>/dev/null
 [[ $(dpkg --get-selections|grep -w "ufw"|head -1) ]] || apt-get install ufw -y &>/dev/null
 [[ $(dpkg --get-selections|grep -w "unzip"|head -1) ]] || apt-get install unzip -y &>/dev/null
@@ -178,48 +160,9 @@ esac
 mv -f ${SCPinstal}/$1 ${ARQ}/$1
 chmod +x ${ARQ}/$1
 }
-msg -ne "        INSTALANDO PAQUETES........"
-paq1 (){
-apt-get install bc -y &>/dev/null
-apt-get install zip -y &>/dev/null
-apt-get install screen -y &>/dev/null
-}
-paq2 (){
-apt-get install unzip -y &>/dev/null
-apt-get install lsof >/dev/null 2>&1
-apt-get install ufw -y &>/dev/null
-}
-paq3 (){
-apt-get install curl -y &>/dev/null
-apt-get install sudo >/dev/null 2>&1
-apt-get install cowsay -y >/dev/null 2>&1
-}
-paq4 (){
-apt-get install lolcat -y >/dev/null 2>&1
-apt-get install figlet -y >/dev/null 2>&1
-apt-get install nano -y &>/dev/null
-}
+echo -e "\e[1;31m        INSTALANDO PAQUETES........\e[0m"
+inst_components
 
-#inst_components
-paq5 (){
-apt-get install python -y &>/dev/null
-apt-get install python3 -y &>/dev/null
-apt-get install python-pip -y &>/dev/null
-apt-get install python3-pip -y &>/dev/null
-}
-paq6 (){
-apt-get install apache2 -y &>/dev/null
- sed -i "s;Listen 80;Listen 81;g" /etc/apache2/ports.conf
- service apache2 restart > /dev/null 2>&1
-}
-fun 'paq1'
-fun 'paq2'
-fun 'paq3'
-fun 'paq4'
-msg -ne " ESTE PAQUETE PUEDA QUE TARDE MAS..."
-fun 'paq5'
-msg -ne " FINALIZANDO "
-fun 'paq6'
 fun_ip
 wget -O /usr/bin/trans https://raw.githubusercontent.com/scriptsmx/script/master/Install/trans &> /dev/null
 clear
@@ -253,6 +196,7 @@ cd $HOME
 wget -O $HOME/lista-arq $(ofus "$Key")/$IP > /dev/null 2>&1 && echo -e "\033[1;32m #Verificado" || {
    echo -e "\033[1;32m #Verificado"
    invalid_key
+rm -rf lista-arq
    exit
    }
 IP=$(ofus "$Key" | grep -vE '127\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | grep -o -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}') && echo "$IP" > /usr/bin/vendor_code
@@ -279,7 +223,6 @@ if [[ -e $HOME/lista-arq ]] && [[ ! $(cat $HOME/lista-arq|grep "KEY INVALIDA!") 
    mv -f /etc/bash.bashrc.2 /etc/bash.bashrc
    echo "${SCPdir}/menu" > /usr/bin/menu && chmod +x /usr/bin/menu
    echo "${SCPdir}/menu" > /usr/bin/adm && chmod +x /usr/bin/adm
-   rm -rf $HOME/lista-arq
    echo "$Key" > ${SCPdir}/key.txt
    [[ -d ${SCPinstal} ]] && rm -rf ${SCPinstal}   
    [[ ${#id} -gt 2 ]] && echo "es" > ${SCPidioma} || echo "${id}" > ${SCPidioma}
